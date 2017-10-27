@@ -5,10 +5,8 @@ var mongoose = require('mongoose');
 var helpers = require('./lib/helpers.js');
 var validator = require('validator')
 var PORT = process.env.PORT || 3000;
+var model = require('./models/model.js')
 
-
-
-//db connect
 //TODO: get all this crap into a module
 mongoose.connect(process.env.MLAB);
 var db = mongoose.connection;
@@ -16,21 +14,11 @@ db.once('open', function(){
     console.log('connected to db');
 });
 //creating model
-var Schema = mongoose.Schema;
-var urlSchema = new Schema({
-    url: 'string',
-    encoded: 'string'
-});
+var Url = model(mongoose);
 
-var Url = mongoose.model('Url', urlSchema);
-
-
-
-
-
-//routing
 /*
     TODO: This is ugly, needs middleware and modulized.
+    Needs to be changed to JSON output??
     */
 app.post('/api/url/new/:url', function(req, res){
     //TODO: add blacklist and check for existing entries
@@ -67,6 +55,11 @@ app.get('/:encoded', function(req, res){
     }
 });
 
+
+//TODO: Add homepage with instructions
+app.get('/', function(req, res){
+    res.send('Hello');
+});
 //server
 app.listen(PORT, function(){
     console.log('Server started on ' + PORT);

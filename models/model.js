@@ -1,6 +1,9 @@
 module.exports = function(mongoose){
-    var urlSchema = mongoose.Schema({
-        url: String,
-        urlEncoded: String
+    var Schema = mongoose.Schema;
+    var urlSchema = new Schema({
+        url: 'string',
+        encoded: 'string'
     });
+    var Url = mongoose.model('Url', urlSchema);
+    return Url;
 };
