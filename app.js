@@ -29,12 +29,12 @@ app.post('/api/url/new/:url', function(req, res){
         var newUrl = new Url({url: req.params.url, encoded: encodedUrl});
         newUrl.save(function(err){
             if (!err){
-                res.send('/' + encodedUrl);
+                res.send({newUrl:'https://evening-springs-61916.herokuapp.com/' + encodedUrl});
             };
 
         });
     } else {
-        res.send('invalid url');
+        res.send({newUrl: 'invalid url'});
     };
     
 });
@@ -45,9 +45,9 @@ app.get('/:encoded', function(req, res){
     if (validator.isAlphanumeric(req.params.encoded)){
         Url.findOne({'encoded': req.params.encoded}, 'url encoded', function(err, url){
             if(err){
-                res.send('not found');
+                res.send({url:'not found'});
             } else {
-                res.send(url.url);
+                res.send({url: url.url});
             };
         });
     } else {
